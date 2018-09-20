@@ -27,6 +27,13 @@
 (def prologue
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
 
+(defn word
+  ([]
+    (rand-nth words))
+  ([a]
+    (take a (repeatedly #(rand-nth words))))
+)
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
