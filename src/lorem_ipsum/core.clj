@@ -34,7 +34,24 @@
     (take a (repeatedly #(rand-nth words))))
 )
 
+(defn paragraph
+  []
+  (loop [end-of-paragraph 20 comma-dot (rand-int 7) result [prologue] ]
+    (if (< end-of-paragraph 0)
+      result
+      (recur 
+        (- end-of-paragraph 1)
+        (if (= comma-dot 0) (rand-int 7) (- comma-dot 1))
+        (conj result (if (= comma-dot 0)
+                       (rand-nth ["." ","])
+                       (if (= (last result) ".")
+                         (str " "  (clojure.string/capitalize (rand-nth words)))
+                          (str " " (rand-nth words))))))))
+)
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (let [lorem-ipsum (paragraph)]
+    (reduce str (conj (pop lorem-ipsum) (str (if (= (last lorem-ipsum) (or "." ", ")) "" ".")))))
+)
